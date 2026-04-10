@@ -1,16 +1,56 @@
-from decimal import Decimal, ROUND_HALF_UP
+import tkinter as tk
+from tkinter import messagebox
+import math
 
-def round_excel(number, num_digits):
-    # Tạo độ chính xác theo num_digits
-    q = Decimal('1e{}'.format(-num_digits))
-    # Dùng ROUND_HALF_UP giống Excel
-    result = Decimal(str(number)).quantize(q, rounding=ROUND_HALF_UP)
-    return float(result)
+# Hàm làm tròn kiểu Excel
+def excel_round(x, n):
+    factor = 10 ** n
+    y = x * factor
 
-# ====== Chương trình chính ======
-x = float(input("Nhap so: "))
-n = int(input("Nhap so chu so can lam tron: "))
+    # Làm tròn "0.5 ra xa 0"
+    if y >= 0:
+        y = math.floor(y + 0.5)
+    else:
+        y = math.ceil(y - 0.5)
 
-kq = round_excel(x, n)
+    return y / factor
 
-print("Ket qua:", kq)
+
+# Hàm xử lý khi bấm nút
+def tinh_toan():
+    try:
+        x = float(entry_x.get())
+        n = int(entry_n.get())
+
+        result = excel_round(x, n)
+
+        label_kq.config(text=f"Kết quả: {result}")
+
+    except:
+        messagebox.showerror("Lỗi", "Nhập sai dữ liệu!")
+
+
+# ===== Giao diện =====
+root = tk.Tk()
+root.title("Mô phỏng ROUND Excel")
+root.geometry("350x220")
+
+# Nhập số x
+tk.Label(root, text="Nhập số thực x:").pack(pady=5)
+entry_x = tk.Entry(root)
+entry_x.pack()
+
+# Nhập n
+tk.Label(root, text="Độ chính xác (n):").pack(pady=5)
+entry_n = tk.Entry(root)
+entry_n.pack()
+
+# Nút tính
+tk.Button(root, text="Làm tròn", command=tinh_toan).pack(pady=10)
+
+# Hiển thị kết quả
+label_kq = tk.Label(root, text="Kết quả: ")
+label_kq.pack()
+
+# Chạy chương trình
+root.mainloop()
