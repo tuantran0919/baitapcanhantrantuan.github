@@ -12,10 +12,9 @@ def kiem_tra_sin(sin):
     # -> 8 số còn lại
     s1 = 0  # tổng vị trí lẻ
     s2 = 0  # tổng vị trí chẵn
-    # ⚠️ QUAN TRỌNG: duyệt từ TRÁI sang PHẢI (đúng theo đề)
+     duyệt từ TRÁI sang PHẢI (đúng theo đề)
     for i in range(len(core)):
         d = core[i]
-
         if i % 2 == 0:  
             # vị trí lẻ (0,2,4,...)
             s1 += d
